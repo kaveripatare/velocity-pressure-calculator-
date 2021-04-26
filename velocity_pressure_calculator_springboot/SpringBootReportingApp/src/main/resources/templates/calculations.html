@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Reporting App</title>
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+</head>
+<body>
+<!-- create navigation bar ( header) -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed"
+                    data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span> <span
+                    class="icon-bar"></span> <span class="icon-bar"></span> <span
+                    class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:href="@{/}">Reporting Application</a>
+        </div>
+    </div>
+</nav>
+<br>
+<br>
+<div class="container">
+    <div class="col-md-offset-3 ">
+        <h1>Calculation and Report Generation</h1>
+    </div>
+    <!--    Welcome <span sec:authentication="principal.username"> User</span>-->
+</div>
+<br>
+<br>
+<div class="container align-items-center">
+    <div class="row">
+        <div class=" col-md-offset-3">
+            <form class="form-horizontal" role="form" method="POST" th:action="@{/calculations}"
+                  th:object="${userCalculationDto}">
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-6">
+                        <div class="alert alert-success" role="alert" th:if="${param.msg}" th:utext="${param.msg}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label for="unit" id="unit">Unit:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="SI" name="SI" class="custom-control-input" value="SI"
+                                       th:field="*{unit}" th:checked="true">
+                                <label class="custom-control-label" for="si">SI</label>
+                                <span class="col-md-offset-3">     </span>
+                                <input type="radio" id="metric" name="metric" class="custom-control-input"
+                                       value="metric" th:field="*{unit}">
+                                <label class="custom-control-label" for="metric">Metric</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label for="height">Height:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="number" step="any" th:field="*{height}" class="form-control" id="height" value
+                                       placeholder="" required disabled>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="align-middle">m</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label for="kzValue">Kz (Calculated By Interpolation):</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="number" step="any" th:field="*{kzValue}" class="form-control" id="kzValue"
+                                       placeholder="" required disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label for="vValue">Basic Wind Speed (V):</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="number" step="any" th:field="*{vValue}" class="form-control" id="vValue"
+                                       placeholder="" required>
+                            </div>
+                        </div>
+                    </div>
+                    <span class="align-middle">m/s</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label for="kdValue">Wind Directional Factor (Kd):</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="number" step="any" th:field="*{kdValue}" class="form-control" id="kdValue"
+                                       placeholder="" required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label for="kztValue">Topography Details (Kzt):</label>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <div class="input-group mb-2 mr-sm-2 mb-sm-0">
+                                <input type="number" step="any" th:field="*{kztValue}" class="form-control" id="kztValue"
+                                       required>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label for="qzValue">Velocity Pressure (Qz):</label>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="text-primary" for="qzValue" id="qzValue" th:field="*{qzValue}"
+                               th:text="*{qzValue}"></label>
+                    </div>
+                    <span class="align-middle">N/m2</span>
+                </div>
+                <div class="row">
+                    <div class="col-md-3 field-label-responsive">
+                        <label>JSON Output:</label><br>
+                        <textarea disabled id="jsonOutput" name="jsonOutput" rows="5" cols="90"
+                                  th:field="*{jsonOutput} "></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2"></div>
+                    <div class="col-md-10">
+                        <form class="col-md-3 col-md-offset-2 ">
+                            <button type="submit" th:hidden="true">
+                                <i>Download Options</i>
+                            </button>
+                        </form>
+                        <form class="col-md-3 float-right" action="#"
+                              th:action="@{'/calculations/json/{qz}'(qz=*{qzValue})}" method="GET">
+                            <button type="submit">
+                                <i>Download JSON File</i>
+                            </button>
+                        </form>
+                        <form class="col-md-4 float-right" action="#" th:action="@{/calculations/pdf}" method="GET">
+                            <button type="submit">
+                                <i>Download PDF Report</i>
+                            </button>
+                        </form>
+                        <form class="col-md-4 mr-20" action="#" th:action="@{'/calculations/{format}'(format='word')}"
+                              th:method="get">
+                            <button type="submit"><i>Download Word Report</i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="mb-20 col-lg-9">
+                        <label>Message:</label><br><br>
+                        <p class="text-success" th:inline="text"><span>        </span>[[${message}]]</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
